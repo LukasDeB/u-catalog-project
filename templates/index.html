@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class="row mx-auto mt-5 border border-primary">
+    <div class="col-3 pt-5 pl-5">
+      <h4>Categories:</h4>
+      <ul class="list-unstyled">
+        {% for category in categories %}
+        <li>
+          <a href="{{ url_for('showItemsInCategory', category_name=category.name) }}" class="text-dark">{{ category.name }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="col-4 mx-auto pt-5 pb-5">
+      <h4>Latest items:</h4>
+      <ul class="list-unstyled">
+        {% for latest_item in latest_items %}
+        <li>
+          <a href="{{ url_for('showItem', category_name=latest_item.category.name, item_title=latest_item.title) }}" class="text-dark">
+            {{ latest_item.title }} <strong class="text-muted">( {{ latest_item.category.name}} )</strong>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

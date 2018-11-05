@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-8 text-center mt-5">
+            <h2>Login</h2>
+            <p> Access the site with your google account.</p>
+            <p>{{ state }}</p>
+            <div id="signinButton">
+                  <span class="g-signin"
+                    data-scope="openid email"
+                    data-clientid="155598242781-v1m1ihrom63fjcas0eoms0rbmudarjmi.apps.googleusercontent.com"
+                    data-redirecturi="postmessage"
+                    data-accesstype="offline"
+                    data-cookiepolicy="single_host_origin"
+                    data-callback="signInCallback"
+                    data-approvalprompt="force">
+                  </span>
+            </div>
+            <div id="result">
+
+            </div>
+
+            <script type="text/javascript">
+                function signInCallback(authRes){
+                    if(authRes['code']){
+                        $('#signinButton').attr('style', 'display: none');
+                        $.ajax({
+                            type: 'POST',
+                            url: '/gconnect?state={{STATE}}',
+                            processData: false,
+                            contentType: 'application/octet-stream; charset=utf-8',
+                            data: authRes['code'],
+                            success: function(res){
+                                if (res){
+                                    $('#result').html('Login Successful! </br>'+ res + '</br Redirecting...>');
+                                    setTimeout(function(){
+                                        window.location.href = "/";
+                                    }, 4000);
+                                } else if (authRes['error']){
+                                    console.log('There was an error: ' + authRes['error']);
+                                } else {
+                                    $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                                }
+                            }
+                        })
+                    }
+                }
+            </script>
+        </div>
+    </div>
+	
+{% endblock %}

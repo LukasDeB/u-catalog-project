@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+	<div class="row justify-content-center">
+		<div class="col-8 pt-3 pb-3 mt-5 border">
+			<div class="text-center">
+				<h1>{{item.title}}</h1>
+				<h4 class="text-muted">{{category.name}}</h4>
+			</div>
+			<p class="pt-5">
+				{{item.description}}
+			</p>
+			<hr>
+			<p class="text-right">
+				By: <strong>{{ item_creator.name }}</strong>
+			</p>
+			<div class="text-center">
+				{% if username == item_creator.name%}
+					<a class="btn btn-primary" href="{{ url_for('editItem', category_name = category.name, item_title = item.title) }}">Edit</a>
+					<a class="btn btn-danger" href="{{ url_for('deleteItem', category_name = category.name, item_title = item.title) }}">Delete</a>
+				{% else %}
+			</div>
+		</div>
+			
+	</div>
+	
+	{% endif %}
+{% endblock %}
